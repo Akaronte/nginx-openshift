@@ -37,4 +37,25 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/opentelemetry-webserver-sdk/sdk_lib/li
 # RUN sudo apt update
 # RUN sudo apt install nginx
 
+
+
+RUN chown nginx:nginx /var/log/nginx -R && \
+    chown nginx:nginx /opt -R && \
+    chgrp -R 0 /opt && \
+    chmod -R g+rwX /opt && \
+    chgrp -R 0 /var/log/nginx && \
+    chmod -R g+rwX /var/log/nginx && \
+    chown nginx:nginx /run -R && \
+    chgrp -R 0 /run && \
+    chmod -R g+rwX /run && \
+    usermod -a -G root nginx
+
+
+RUN chgrp -R root /var/cache/nginx /var/run /var/log/nginx && \
+    chmod -R 770 /var/cache/nginx /var/run /var/log/nginx
+
+ENV PATH="${PATH}:/usr/sbin/nginx"
+
+USER nginx
+
 CMD ["nginx", "-g", "daemon off;"]
