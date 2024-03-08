@@ -54,8 +54,8 @@ RUN chown nginx:nginx /var/log/nginx -R && \
 RUN chgrp -R root /var/cache/nginx /var/run /var/log/nginx && \
     chmod -R 770 /var/cache/nginx /var/run /var/log/nginx
 
-ENV PATH="${PATH}:/usr/sbin/nginx"
+# ENV PATH="${PATH}:/usr/sbin/nginx"
 
-USER nginx
+# USER nginx
 
 CMD ["nginx", "-g", "daemon off;"]
