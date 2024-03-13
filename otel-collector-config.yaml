@@ -2,9 +2,9 @@ receivers:
   otlp:
     protocols:
       grpc:
-        endpoint: localhost:4317
+        endpoint: 0.0.0.0:4317
       http:
-        endpoint: localhost:4318
+        endpoint: 0.0.0.0:4318
 
 processors: 
   memory_limiter:
@@ -13,10 +13,6 @@ processors:
   batch:
 
 exporters:
-  otlp/jaeger:
-    endpoint: jaeger:4317
-    tls:
-      insecure: true
   debug:
     verbosity: detailed 
   otlp/elastic: 
@@ -33,10 +29,10 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [otlp/jaeger,debug, otlp/elastic]
+      exporters: [debug, otlp/elastic]
     metrics:
       receivers: [otlp]
-      exporters: [otlp/jaeger,debug, otlp/elastic]
+      exporters: [debug, otlp/elastic]
     logs: 
       receivers: [otlp]
-      exporters: [otlp/jaeger,debug, otlp/elastic]
+      exporters: [debug, otlp/elastic]

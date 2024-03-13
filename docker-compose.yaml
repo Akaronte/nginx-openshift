@@ -1,14 +1,5 @@
 version: "3.8"
 services:
-  jaeger:
-    container_name: jaeger
-    hostname: jaeger
-    image: jaegertracing/all-in-one:latest
-    ports:
-      - '16686:16686'
-      - 4317:4317 
-    networks:
-      - external_network
   collector:
     container_name: collector
     hostname: collector
@@ -17,18 +8,15 @@ services:
     volumes:
       - ./ca.crt:/ca.crt
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
-    networks:
-      - external_network
     extra_hosts:
       - "apmserver-sample-apm-http:192.168.1.163"
   nginx:
-    image: nginx-otel
+    container_name: nginx
+    image: registry.piensoluegoinstalo.com:5000/nginx-otel
     volumes:
       - ./opentelemetry_module.conf:/etc/nginx/conf.d/opentelemetry_module.conf
     ports:
       - 8080:80
-    networks:
-      - external_network
   # nginx:
   #   container_name: nginx
   #   build:
@@ -56,4 +44,5 @@ services:
 networks:
   external_network:
     driver: bridge
+
 
