@@ -1,0 +1,42 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: localhost:4317
+      http:
+        endpoint: localhost:4318
+
+processors: 
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 2000
+  batch:
+
+exporters:
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+  debug:
+    verbosity: detailed 
+  otlp/elastic: 
+    # Elastic APM server https endpoint without the "https://" prefix
+    endpoint: apmserver-sample-apm-http:8200 
+    headers:
+      # Elastic APM Server secret token
+      Authorization: "Bearer 3me781m7zmfFc79VdX6T2xQ6"
+    tls:
+      #insecure: true
+      #insecure_skip_verify: true
+      ca_file: "./ca.crt" 
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp/jaeger,debug, otlp/elastic]
+    metrics:
+      receivers: [otlp]
+      exporters: [otlp/jaeger,debug, otlp/elastic]
+    logs: 
+      receivers: [otlp]
+      exporters: [otlp/jaeger,debug, otlp/elastic]
