@@ -46,10 +46,7 @@ RUN apt update && apt install -y nginx=1.22.0-1~`lsb_release -cs`
 RUN echo "nginx hold" | dpkg --set-selections
 
 
-ADD https://github.com/open-telemetry/opentelemetry-cpp-contrib/releases/download/webserver%2Fv1.0.3/opentelemetry-webserver-sdk-x64-linux.tgz /opt
-RUN cd /opt ; unzip opentelemetry-webserver-sdk-x64-linux.tgz.zip; tar xvfz opentelemetry-webserver-sdk-x64-linux.tgz
-RUN cd /opt/opentelemetry-webserver-sdk; ./install.sh
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/opentelemetry-webserver-sdk/sdk_lib/lib
+ADD https://github.com/open-telemetry/opentelemetry-cpp-contrib/releases/download/nginx%2Fv0.1.1/otel_ngx_module-ubuntu-24.04-1.27.3.so /opt
 
 
 RUN chown nginx:nginx /var/log/nginx -R && \
