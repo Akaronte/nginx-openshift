@@ -9,3 +9,5 @@ Add tst record in dns zona and check value:
 dig _acme-challenge.apps.kube1.okd.piensoluegoinstalo.com TXT +noall +answer
 
 secret default for all routes in openshift cluster router-certs-default -n openshift-ingress
+
+ldd /opt/otel_ngx_module-ubuntu-24.04-1.27.3.so
